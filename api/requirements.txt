@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+aiosqlite
+pydantic
+pandas
+openpyxl
+pymupdf
+Pillow
+python-multipart
+aiofiles
