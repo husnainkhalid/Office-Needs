@@ -1,44 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 function PurchaseOrder() {
-  const [quotes, setQuotes] = useState([]);
-  const [selectedQuote, setSelectedQuote] = useState(null);
+  const [order, setOrder] = useState({ item: '', qty: 1 });
+  const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    // Fetch confirmed quotes from backend
-    axios.get('http://localhost:8000/quotes')
-      .then(res => setQuotes(res.data.quotes))
-      .catch(err => console.error(err));
-  }, []);
-
-  const createPO = () => {
-    if (!selectedQuote) return alert('Select a quote first!');
-    axios.post('http://localhost:8000/po', { quote_id: selectedQuote.quote_id })
-      .then(res => alert('PO created: ' + JSON.stringify(res.data)))
-      .catch(err => console.error(err));
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setOrders([...orders, order]);
+    setOrder({ item: '', qty: 1 });
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Purchase Orders</h2>
+    <div>
+      <h2>Purchase Order</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Item name"
+          value={order.item}
+          onChange={(e) => setOrder({ ...order, item: e.target.value })}
+        />
+        <input
+          type="number"
+          min="1"
+          value={order.qty}
+          onChange={(e) => setOrder({ ...order, qty: e.target.value })}
+        />
+        <button type="submit">Add</button>
+      </form>
 
-      <div>
-        <label>Select Quote: </label>
-        <select value={selectedQuote?.quote_id || ''} onChange={e => {
-          const q = quotes.find(q => q.quote_id === parseInt(e.target.value));
-          setSelectedQuote(q);
-        }}>
-          <option value="">--Select--</option>
-          {quotes.map(q => (
-            <option key={q.quote_id} value={q.quote_id}>
-              {q.client_name} - {q.date}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <button onClick={createPO} style={{ marginTop: '20px' }}>Create PO</button>
+      <h3>Orders</h3>
+      <ul>
+        {orders.map((o, idx) => (
+          <li key={idx}>{o.qty} × {o.item}</li>
+        ))}
+      </ul>
     </div>
   );
 }

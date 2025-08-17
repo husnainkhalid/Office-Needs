@@ -11,13 +11,15 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Pricing />} />
-        <Route path="/purchase-order" element={<PurchaseOrder />} />
-        <Route path="/vendor-order" element={<VendorOrder />} />
-        <Route path="/packing" element={<Packing />} />
-        <Route path="/invoice" element={<Invoice />} />
-      </Routes>
+      <div className="container" style={{ padding: '20px' }}>
+        <Routes>
+          <Route path="/" element={<Pricing />} />
+          <Route path="/purchase-order" element={<PurchaseOrder />} />
+          <Route path="/vendor-order" element={<VendorOrder />} />
+          <Route path="/packing" element={<Packing />} />
+          <Route path="/invoice" element={<Invoice />} />
+        </Routes>
+      </div>
     </Router>
   );
 }

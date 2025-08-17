@@ -26,3 +26,11 @@ export const pickStock = async (payload) => {
     return { status: "error" };
   }
 };
+try { 
+const res = await axios.get(`${API_URL}/stock/available?code=${code}`); 
+return res.data; 
+} catch (err) { 
+console.error(err); 
+return null; 
+} 
+}; 
