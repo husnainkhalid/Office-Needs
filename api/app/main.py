@@ -1,11 +1,18 @@
+from fastapi import FastAPI
+from app.routes_inventory import router as inventory_router
+from app.routes_vendor import router as vendor_router
+from app.routes_inventory import router as inventory_router
+from app.routes_vendor import router as vendor_router
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Dict
 import uvicorn
-from api.app import db, crud_import
+from app import db, crud_import
 
 app = FastAPI(title="SurgicalOps API")
+app.include_router(inventory_router)
+app.include_router(vendor_router)
 
 # Allow CORS for frontend dev
 app.add_middleware(
